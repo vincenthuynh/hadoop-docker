@@ -18,7 +18,11 @@ $HADOOP_PREFIX/sbin/start-dfs.sh
 #$HADOOP_PREFIX/sbin/start-yarn.sh
 #$HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh start historyserver
 
-sleep 15
+while [[ $($HADOOP_PREFIX/bin/hdfs dfsadmin -safemode get) == "Safe mode is ON" ]]; do
+  echo "Safe mode is ON. Waiting..."
+  sleep 5
+done
+
 $HADOOP_PREFIX/bin/hdfs dfs -mkdir /data
 $HADOOP_PREFIX/bin/hdfs dfs -chmod a+rw /data
 
